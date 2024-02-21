@@ -1,5 +1,5 @@
 #include <LedControl.h>
-#include <string.h>
+#include <math.h>
 
 
 // constants
@@ -13,6 +13,20 @@ int DIN = 11;
 int CS = 10;
 int CLK = 8;
 LedControl lc=LedControl(DIN, CLK, CS,0);
+
+/**
+ * Activates the first LED in the first row if is_temp_negativ is true,
+ * otherwise the first LED in the first row will be deactivated.
+ *
+ * @param is_temp_negativ should be true if measured temp is negativ, otherwise false
+ */
+void show_if_measured_temp_is_negativ(bool is_temp_negativ){
+  if(is_temp_negativ){
+    lc.setLed(0, 0, 0, true);
+  }else {
+    lc.setLed(0, 0, 0, false);
+  }
+}
 
 /**
  * Activates the second LED and deactivates the third LED 
@@ -78,6 +92,13 @@ void check_and_show_warnings(double temp, double humi){
   }
 }
 
+/**
+ * Activates a specified number of LEDs in given row.
+ *
+ * @param addr address of the display
+ * @param row the row of the LEDs (0..7)
+ * @param number_of_leds the number of LEDs to activate (0..8)
+ */
 void activate_specific_number_of_leds_in_a_row(int addr, int row, int number_of_leds){
   lc.setRow(addr, row, B00000000); // clear row
 
@@ -86,13 +107,75 @@ void activate_specific_number_of_leds_in_a_row(int addr, int row, int number_of_
   }
 }
 
-void convert_and_show_measured_temp(double temp){
-  char buffer[6];
-  String temp_as_str = String(temp);
-  temp_as_str.toCharArray(buffer, sizeof(buffer));
+/**
+ * Shows the measured temperature on the display. 
+ * Example: temp == 21.5 --> second row has two activated LEDs, third row has one activated LED, 
+ * forth row has five activated LEDs.
+ *
+ * @param temp_values_as_char using the example, on index 0 should be '2', on 1 should be '1' and on 2 should be '5'
+ */
+void show_measured_temp(char temp_values_as_char[3]){
+  // clear rows of temp
+  lc.setRow(0, 1, B00000000);
+  lc.setRow(0, 2, B00000000);
+  lc.setRow(0, 3, B00000000);
 
-  Serial.print("Result: "); // ToDo
-  Serial.println(buffer);
+  activate_specific_number_of_leds_in_a_row(0, 1, (temp_values_as_char[0] - '0')); // * 10 Celsius
+  activate_specific_number_of_leds_in_a_row(0, 2, (temp_values_as_char[1] - '0')); // * 1 Celsius
+  activate_specific_number_of_leds_in_a_row(0, 3, (temp_values_as_char[2] - '0')); // * 0.1 Celsius
+}
+
+/**
+ * Shows the measured temperature on the display.
+ * If temp is NaN, nothing on the display will change.
+ *
+ * @param temp temperature to display
+ */
+void convert_and_show_measured_temp(double temp){
+  if(!isnan(temp)){ // check if temp is NaN
+    char buffer[6];
+    String(temp).toCharArray(buffer, sizeof(buffer)); // convert double to String and String to char array
+
+    // if temp is negativ
+    if(temp<0.0){
+      show_if_measured_temp_is_negativ(true);
+
+      if((temp*(-1)) >= 10.00){ // does temp have two digits before the point
+        // remove negative sign by pushing first characters one space higher
+        buffer[0] = buffer[1]; // 1xyz
+        buffer[1] = buffer[2]; // x1yz
+        buffer[2] = buffer[3]; // xy.z
+        buffer[3] = buffer[4]; // xyz1
+
+        char temp_values[3] = {buffer[0], buffer[1], buffer[3]};
+        show_measured_temp(temp_values);
+      }else {
+        // remove negative sign by replacing it with a zero
+        buffer[0] = '0'; // 0xyz
+
+        char temp_values[3] = {buffer[0], buffer[1], buffer[3]};
+        show_measured_temp(temp_values);
+      }
+
+    }else { // if temp is postiv
+      show_if_measured_temp_is_negativ(false);
+
+      if(temp >= 10.00){ // does temp have two digits before the point
+        char temp_values[3] = {buffer[0], buffer[1], buffer[3]};
+        show_measured_temp(temp_values);
+      }else{
+        char new_buffer[4];
+        new_buffer[0] = '0';
+        new_buffer[1] = buffer[0];
+        new_buffer[2] = buffer[1];
+        new_buffer[3] = buffer[2];
+
+        char temp_values[3] = {new_buffer[0], new_buffer[1], new_buffer[3]};
+        show_measured_temp(temp_values);
+      }
+    }
+  }
+  
 }
 
 void setup()   {
@@ -100,14 +183,32 @@ void setup()   {
   lc.setIntensity(0,0);
   lc.clearDisplay(0);
 
+  // init screen
+  lc.setRow(0, 0, B00111100);
+  lc.setRow(0, 1, B01000010);
+  lc.setRow(0, 2, B10100101);
+  lc.setRow(0, 3, B10000001);
+  lc.setRow(0, 4, B10100101);
+  lc.setRow(0, 5, B10011001);
+  lc.setRow(0, 6, B01000010);
+  lc.setRow(0, 7, B00111100);
+
   Serial.begin(9600); // ToDo delete later
 }
 
 void loop() {
-  //check_and_show_warnings(55.0, 60.0);
+  // update display after a few seconds
+  delay(5000);
+  lc.clearDisplay(0);
 
-  //lc.clearDisplay(0);
-  //lc.setRow(0, 0, B10011001);
-  convert_and_show_measured_temp(-44.23);
-  delay(3000);
+  // get data
+  double temp = 10.3; // ToDo get real data
+  double humi = 56.8; // ToDo get real data
+
+  // check for warnings
+  check_and_show_warnings(temp, humi);
+
+  // show data
+  convert_and_show_measured_temp(temp);
+  // ToDo convert_and_show_measured_humi(humi);
 }
