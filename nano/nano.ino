@@ -1,10 +1,12 @@
 #include <LedControl.h>
+#include <string.h>
+
 
 // constants
-const double TEMP_TOO_HIGH = 35.00;
-const double TEMP_TOO_LOW = 0.00;
-const double HUMI_TOO_HIGH = 60.00;
-const double HUMI_TOO_LOW = 40.00;
+const double TEMP_TOO_HIGH = 35.0;
+const double TEMP_TOO_LOW = 0.0;
+const double HUMI_TOO_HIGH = 60.0;
+const double HUMI_TOO_LOW = 40.0;
 
 // variables for 8x8 LED Matrix MAX7219
 int DIN = 11;
@@ -85,21 +87,27 @@ void activate_specific_number_of_leds_in_a_row(int addr, int row, int number_of_
 }
 
 void convert_and_show_measured_temp(double temp){
-  //String temp_as_str = to_string(temp);
-  //unsigend int length = temp_as_str.length();
+  char buffer[6];
+  String temp_as_str = String(temp);
+  temp_as_str.toCharArray(buffer, sizeof(buffer));
 
+  Serial.print("Result: "); // ToDo
+  Serial.println(buffer);
 }
 
 void setup()   {
   lc.shutdown(0,false);
   lc.setIntensity(0,0);
   lc.clearDisplay(0);
+
+  Serial.begin(9600); // ToDo delete later
 }
 
 void loop() {
-  check_and_show_warnings(55.0, 60.0);
+  //check_and_show_warnings(55.0, 60.0);
 
   //lc.clearDisplay(0);
   //lc.setRow(0, 0, B10011001);
-
+  convert_and_show_measured_temp(-44.23);
+  delay(3000);
 }
