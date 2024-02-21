@@ -76,6 +76,20 @@ void check_and_show_warnings(double temp, double humi){
   }
 }
 
+void activate_specific_number_of_leds_in_a_row(int addr, int row, int number_of_leds){
+  lc.setRow(addr, row, B00000000); // clear row
+
+  for(int i=0; i<number_of_leds; i++){
+    lc.setLed(addr, row, i, true);
+  }
+}
+
+void convert_and_show_measured_temp(double temp){
+  //String temp_as_str = to_string(temp);
+  //unsigend int length = temp_as_str.length();
+
+}
+
 void setup()   {
   lc.shutdown(0,false);
   lc.setIntensity(0,0);
