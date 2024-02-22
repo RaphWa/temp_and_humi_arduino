@@ -3,6 +3,7 @@ A Arduino Nano gathers data from a DHT22 modul and displays the data on a 8x8 LE
 The following table shows what meaning each LED on the matrix has if it is activated.
 
 | . | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 0 | temp is negativ | temp too high | temp too low | humi too high | humi too low | humi is 0.0% | humi is 100.0% | . |
 | 1 | T10 | T20 | T30 | T40 | T50 | T60 | T70 | T80 |
 | 2 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 |
@@ -12,7 +13,7 @@ The following table shows what meaning each LED on the matrix has if it is activ
 | 6 | H1 | H2 | H3 | H4 | H5 | H6 | H7 | H8 |
 | 7 | H0.1 | H0.2 | H0.3 | H0.4 | H0.5 | H0.6 | H0.7 | H0.8 |
 
-temp/T= Temperature in celsius, humi/H= Humidity in percent, .=no function/meaning
+temp/T= Temperature in celsius, humi/H= Humidity in percent, .= placholder
 
 
 # Structure
