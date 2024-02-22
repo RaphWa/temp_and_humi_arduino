@@ -1,6 +1,5 @@
 #include <LedControl.h>
-#include <math.h>
-#include "DHT.h"
+#include <DHT.h>
 
 // constants
 const double TEMP_TOO_HIGH = 35.0;
@@ -8,6 +7,9 @@ const double TEMP_TOO_LOW = 0.0;
 const double HUMI_TOO_HIGH = 60.0;
 const double HUMI_TOO_LOW = 40.0;
 const byte PATTERN_TO_DISPLAY_NUMBER_NINE = B10011001; // 1001 => 1+8 = 9
+const int NUMBER_OF_ITERATIONS_OF_FASTER_SCREEN_REFRESH = 5;
+
+int counter_faster_screen_refresh = 0;
 
 // variables for 8x8 LED Matrix MAX7219
 int DIN = 11;
@@ -15,7 +17,7 @@ int CS = 10;
 int CLK = 8;
 LedControl lc=LedControl(DIN, CLK, CS,0);
 
-// variables for DHT22
+// variable for DHT22
 DHT dht(2, DHT22); // data pin=2, type=DHT22
 
 /**
@@ -309,8 +311,6 @@ void setup()   {
 
   dht.begin();
 
-  Serial.begin(9600); // ToDo delete later
-
   delay(2500);
   lc.clearDisplay(0);
 }
@@ -320,12 +320,6 @@ void loop() {
   double temp = (double)dht.readTemperature();
   double humi = (double)dht.readHumidity();
 
-  Serial.print("temp: ");
-  Serial.print(temp);
-
-  Serial.print("humi: ");
-  Serial.print(humi);
-
   // check for warnings
   check_and_show_warnings(temp, humi);
 
@@ -333,7 +327,12 @@ void loop() {
   convert_and_show_temp(temp);
   convert_and_show_humi(humi);
 
-  // update display after a few seconds
-  delay(5000);
+  // update display
+  if(counter_faster_screen_refresh < NUMBER_OF_ITERATIONS_OF_FASTER_SCREEN_REFRESH){
+    counter_faster_screen_refresh += 1;
+    delay(60000); // update display after a minute
+  }else{
+    delay(60000*10); // update display after 10 minutes
+  }
   //lc.clearDisplay(0);
 }
