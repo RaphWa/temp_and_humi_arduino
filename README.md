@@ -21,7 +21,13 @@ temp/T= Temperature in celsius, humi/H= Humidity in percent, .= placholder
 The first row (at index 0) contains LEDs for additional information and warnings. Within that row the first LED is activated if the measured temperature is negativ, but if the measured temperature is equal to or greater than 0.0 this LED will be deactivated. The next two LEDs are activated if the measured temperature is too high (temp is above [TEMP_TOO_HIGH](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)) or too low (temp is lower than [TEMP_TOO_LOW](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)). The following two LEDs at the two indices 3 and 4 are activated if the measured humidity is too high (humi is above [HUMI_TOO_HIGH](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)) or too low (temp is lower than [HUMI_TOO_LOW](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)). The LED at the index 5 is activated if the measured humidity equals 0.0% and the LED at the index 6 is activated if the measured humidity equals 100.0%.
 
 ### Second, third and forth row
-The three rows at the indices 1, 2 and 3 display the measured temperature.
+The three rows at the indices 1, 2 and 3 display the measured temperature. Only the first two numbers before the point and the first number after the point are displayed. The number 9 is displayed in the pattern [PATTERN_TO_DISPLAY_NUMBER_NINE](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino) (On=1, Off=0), because if the binary number 1001 is converted to a decimal number the result is 9.
+Some examples for displaying measured temperatures on the 8x8 LED Matrix are:
+- temp= 32.45 --> activated LEDs: T10, T20, T30 and T1, T2 and T0.1, T0.2, T0.3, T0.4
+- temp= 10.03 --> activated LEDs: T10
+- temp= 21.90 --> activated LEDs: T10, T20 and T1 and T0.1, T0.4, T0.5, T0.8
+- temp= -05.30 --> activated LEDs: LED at index (0|0) and T1, T2, T3, T4, T5 and T0.1, T0.2, T0.3
+
 
 ### Fifth row
 No LEDs within the fifth row are being activated.
