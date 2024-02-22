@@ -7,6 +7,7 @@ const double TEMP_TOO_HIGH = 35.0;
 const double TEMP_TOO_LOW = 0.0;
 const double HUMI_TOO_HIGH = 60.0;
 const double HUMI_TOO_LOW = 40.0;
+const byte PATTERN_TO_DISPLAY_NUMBER_NINE = B10111101;
 
 // variables for 8x8 LED Matrix MAX7219
 int DIN = 11;
@@ -109,20 +110,44 @@ void activate_specific_number_of_leds_in_a_row(int addr, int row, int number_of_
 
 /**
  * Shows the measured temperature on the display. 
- * Example: temp == 21.5 --> second row has two activated LEDs, third row has one activated LED, 
+ * First example: temp == 21.5 --> second row has two activated LEDs, third row has one activated LED, 
  * forth row has five activated LEDs.
+ * Second example: temp == 09.8 --> second row has no activated LEDs, 
+ * third row has activated LEDs in pattern PATTERN_TO_DISPLAY_NUMBER_NINE, 
+ * all LEDs in forth row are activated.
  *
- * @param temp_values_as_char using the example, on index 0 should be '2', on 1 should be '1' and on 2 should be '5'
+ * @param temp_values_as_char using the first example, on index 0 should be '2', on 1 should be '1' and on 2 should be '5'
  */
-void show_measured_temp(char temp_values_as_char[3]){
+void show_temp_on_display(char temp_values_as_char[3]){
   // clear rows of temp
   lc.setRow(0, 1, B00000000);
   lc.setRow(0, 2, B00000000);
   lc.setRow(0, 3, B00000000);
 
-  activate_specific_number_of_leds_in_a_row(0, 1, (temp_values_as_char[0] - '0')); // * 10 Celsius
-  activate_specific_number_of_leds_in_a_row(0, 2, (temp_values_as_char[1] - '0')); // * 1 Celsius
-  activate_specific_number_of_leds_in_a_row(0, 3, (temp_values_as_char[2] - '0')); // * 0.1 Celsius
+  // calculate values
+  int temp_values[3];
+  temp_values[0] = temp_values_as_char[0] - '0';
+  temp_values[1] = temp_values_as_char[1] - '0';
+  temp_values[2] = temp_values_as_char[2] - '0';
+
+
+
+  // check if number 9 has to be displayed
+  if(temp_values[0] !=9){
+    activate_specific_number_of_leds_in_a_row(0, 1, temp_values[0]); // * 10 Celsius
+  }else {
+    lc.setRow(0, 1, PATTERN_TO_DISPLAY_NUMBER_NINE);
+  }
+  if(temp_values[1] !=9){
+    activate_specific_number_of_leds_in_a_row(0, 2, temp_values[1]); // * 1 Celsius
+  }else {
+    lc.setRow(0, 2, PATTERN_TO_DISPLAY_NUMBER_NINE);
+  }
+  if(temp_values[2] !=9){
+    activate_specific_number_of_leds_in_a_row(0, 3, temp_values[2]); // * 0.1 Celsius
+  }else {
+    lc.setRow(0, 3, PATTERN_TO_DISPLAY_NUMBER_NINE);
+  }
 }
 
 /**
@@ -131,7 +156,7 @@ void show_measured_temp(char temp_values_as_char[3]){
  *
  * @param temp temperature to display
  */
-void convert_and_show_measured_temp(double temp){
+void convert_and_show_temp(double temp){
   if(!isnan(temp)){ // check if temp is NaN
     char buffer[6];
     String(temp).toCharArray(buffer, sizeof(buffer)); // convert double to String and String to char array
@@ -148,13 +173,13 @@ void convert_and_show_measured_temp(double temp){
         buffer[3] = buffer[4]; // xyz1
 
         char temp_values[3] = {buffer[0], buffer[1], buffer[3]};
-        show_measured_temp(temp_values);
+        show_temp_on_display(temp_values);
       }else {
         // remove negative sign by replacing it with a zero
         buffer[0] = '0'; // 0xyz
 
         char temp_values[3] = {buffer[0], buffer[1], buffer[3]};
-        show_measured_temp(temp_values);
+        show_temp_on_display(temp_values);
       }
 
     }else { // if temp is postiv
@@ -162,7 +187,7 @@ void convert_and_show_measured_temp(double temp){
 
       if(temp >= 10.00){ // does temp have two digits before the point
         char temp_values[3] = {buffer[0], buffer[1], buffer[3]};
-        show_measured_temp(temp_values);
+        show_temp_on_display(temp_values);
       }else{
         char new_buffer[4];
         new_buffer[0] = '0';
@@ -171,7 +196,7 @@ void convert_and_show_measured_temp(double temp){
         new_buffer[3] = buffer[2];
 
         char temp_values[3] = {new_buffer[0], new_buffer[1], new_buffer[3]};
-        show_measured_temp(temp_values);
+        show_temp_on_display(temp_values);
       }
     }
   }
@@ -202,13 +227,13 @@ void loop() {
   lc.clearDisplay(0);
 
   // get data
-  double temp = 10.3; // ToDo get real data
+  double temp = 99.9; // ToDo get real data
   double humi = 56.8; // ToDo get real data
 
   // check for warnings
   check_and_show_warnings(temp, humi);
 
   // show data
-  convert_and_show_measured_temp(temp);
+  convert_and_show_temp(temp);
   // ToDo convert_and_show_measured_humi(humi);
 }
