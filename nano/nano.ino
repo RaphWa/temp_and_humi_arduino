@@ -130,8 +130,6 @@ void show_temp_on_display(char temp_values_as_char[3]){
   temp_values[1] = temp_values_as_char[1] - '0';
   temp_values[2] = temp_values_as_char[2] - '0';
 
-
-
   // check if number 9 has to be displayed
   if(temp_values[0] !=9){
     activate_specific_number_of_leds_in_a_row(0, 1, temp_values[0]); // * 10 Celsius
@@ -152,7 +150,7 @@ void show_temp_on_display(char temp_values_as_char[3]){
 
 /**
  * Shows the measured temperature on the display.
- * If temp is NaN, nothing on the display will change.
+ * If temp is NaN, nothing on the display of temperature will change.
  *
  * @param temp temperature to display
  */
@@ -200,7 +198,45 @@ void convert_and_show_temp(double temp){
       }
     }
   }
-  
+}
+
+/**
+ * Shows the measured humidity on the display.
+ * If humi is NaN, nothing on the display of humidity will change.
+ *
+ * @param humi humidity to display
+ */
+void convert_and_show_humi(double humi){
+  if(!isnan(humi)){ // check if humi is NaN
+    if(humi==100.0){
+      // clear rows of humi
+      lc.setRow(0, 5, B00000000);
+      lc.setRow(0, 6, B00000000);
+      lc.setRow(0, 7, B00000000);
+
+      lc.setLed(0, 0, 5, true); // show warning that humi == 100.0
+    }else {
+      lc.setLed(0, 0, 5, false); // deactivate warning that humi == 100.0
+
+      char buffer[6];
+      String(humi).toCharArray(buffer, sizeof(buffer)); // convert double to String and String to char array
+
+      Serial.print(buffer[0]);
+      Serial.print(buffer[1]);
+      Serial.print(buffer[2]);
+      Serial.print(buffer[3]);
+      Serial.print(buffer[4]);
+      Serial.print(buffer[5]);
+      Serial.println("-");
+
+      if(humi >= 10.00){ // does humi have two digits before the point
+        char humi_values[3] = {buffer[0], buffer[1], buffer[3]};
+        // show_humi_on_display(humi_values); // ToDo code this function
+      }else{
+        
+      }
+    }
+  }
 }
 
 void setup()   {
@@ -234,7 +270,15 @@ void loop() {
 
   // show data
   convert_and_show_temp(temp);
-  // ToDo convert_and_show_humi(humi);
+  // convert_and_show_humi(humi);
+
+  convert_and_show_humi(99.90); // ToDo delete test
+  delay(2000);
+  convert_and_show_humi(100.00); // ToDo delete test
+  delay(2000);
+  convert_and_show_humi(10.45); // ToDo delete test
+  delay(2000);
+  convert_and_show_humi(3.15); // ToDo delete test
 
   // update display after a few seconds
   delay(5000);
