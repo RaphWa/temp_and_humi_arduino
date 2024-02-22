@@ -2,7 +2,7 @@
 A Arduino Nano gathers data from a DHT22 modul and displays the data on a 8x8 LED Matrix MAX7219. The power is being delivered through the USB connector.
 
 ## Meaning of LEDs on 8x8 matrix
-The following table shows what meaning each LED on the matrix has if it is activated.
+The following table shows what meaning each LED on the matrix has if it is activated. Furthermore the next three chapters explain the meaning of the LEDs in more detail
 
 | . | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -26,21 +26,25 @@ Some examples for displaying measured temperatures on the 8x8 LED Matrix are:
 - temp= 32.45 --> activated LEDs: T10, T20, T30 and T1, T2 and T0.1, T0.2, T0.3, T0.4
 - temp= 10.03 --> activated LEDs: T10
 - temp= 21.90 --> activated LEDs: T10, T20 and T1 and T0.1, T0.4, T0.5, T0.8
-- temp= -05.30 --> activated LEDs: LED at index (0|0) and T1, T2, T3, T4, T5 and T0.1, T0.2, T0.3
-
+- temp= -05.30 --> activated LEDs: LED at index (0|0) and LED at index (2|0) and T1, T2, T3, T4, T5 and T0.1, T0.2, T0.3
 
 ### Fifth row
 No LEDs within the fifth row are being activated.
 
 ### Sixth, seventh and eighth row
-The three rows at the indices 5, 6 and 7 display the measured humidity.
+The three rows at the indices 5, 6 and 7 display the measured humidity. Like the display of the temperature, only the first two numbers before the point and the first number after the point are displayed, if the measured humidity is not 100.0%. If the the measured humidity is 100.0% all LEDs within the three rows will be deactivated and the LED at the index (6|0) will be activated. Something similar happens if the measured humidity is 0.0%: all LEDs within the three rows will be deactivated and the LED at the index (5|0) will be activated. The number 9 is displayed in the pattern [PATTERN_TO_DISPLAY_NUMBER_NINE](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino) (On=1, Off=0).
+Some examples for displaying measured humidity on the 8x8 LED Matrix are:
+- humi= 56.23 --> activated LEDs: H10, H20, H30, H40, H50 and H1, H2, H3, H4, H5, H6 and H0.1, H0.2 
+- humi= 49.07 --> activated LEDs: H10, H20, H30, H40 and H1, H4, H5, H8
+- humi= 60.84 --> activated LEDs: LED at index (3|0) and H10, H20, H30, H40, H50, H60 and H0.1, H0.2, H0.3, H0.4, H0.5, H0.6, H0.7, H0.8
+- humi= 32.10 --> activated LEDs: LED at index (4|0) and H10, H20, H30 and H1, H2 and H0.1
 
 
 # Structure
 The following text shows or/and explains the structure of the hardware and the software of this project.
 
 ## Structure of the hardware
-The following text and tables show waht modules were being used and how to connect them.
+The following text and tables show what modules were being used and how to connect them.
 
 ### Used hardware
 - Arduino Nano
@@ -69,3 +73,4 @@ Arduino Nano and 8x8 LED Matrix MAX7219:
 
 
 ## Structure of the software
+The following text and tables show and explain the structure of the [software](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino) of the Arduino Nano.
