@@ -21,7 +21,7 @@ LedControl lc=LedControl(DIN, CLK, CS,0);
  *
  * @param is_temp_negativ should be true if measured temp is negativ, otherwise false
  */
-void show_if_measured_temp_is_negativ(bool is_temp_negativ){
+void show_if_temp_is_negativ(bool is_temp_negativ){
   if(is_temp_negativ){
     lc.setLed(0, 0, 0, true);
   }else {
@@ -163,7 +163,7 @@ void convert_and_show_temp(double temp){
 
     // if temp is negativ
     if(temp<0.0){
-      show_if_measured_temp_is_negativ(true);
+      show_if_temp_is_negativ(true);
 
       if((temp*(-1)) >= 10.00){ // does temp have two digits before the point
         // remove negative sign by pushing first characters one space higher
@@ -183,7 +183,7 @@ void convert_and_show_temp(double temp){
       }
 
     }else { // if temp is postiv
-      show_if_measured_temp_is_negativ(false);
+      show_if_temp_is_negativ(false);
 
       if(temp >= 10.00){ // does temp have two digits before the point
         char temp_values[3] = {buffer[0], buffer[1], buffer[3]};
@@ -219,13 +219,12 @@ void setup()   {
   lc.setRow(0, 7, B00111100);
 
   Serial.begin(9600); // ToDo delete later
+
+  delay(5000);
+  lc.clearDisplay(0);
 }
 
 void loop() {
-  // update display after a few seconds
-  delay(5000);
-  lc.clearDisplay(0);
-
   // get data
   double temp = 99.9; // ToDo get real data
   double humi = 56.8; // ToDo get real data
@@ -235,5 +234,9 @@ void loop() {
 
   // show data
   convert_and_show_temp(temp);
-  // ToDo convert_and_show_measured_humi(humi);
+  // ToDo convert_and_show_humi(humi);
+
+  // update display after a few seconds
+  delay(5000);
+  //lc.clearDisplay(0);
 }
