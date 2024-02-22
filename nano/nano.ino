@@ -7,7 +7,7 @@ const double TEMP_TOO_HIGH = 35.0;
 const double TEMP_TOO_LOW = 0.0;
 const double HUMI_TOO_HIGH = 60.0;
 const double HUMI_TOO_LOW = 40.0;
-const byte PATTERN_TO_DISPLAY_NUMBER_NINE = B10111101;
+const byte PATTERN_TO_DISPLAY_NUMBER_NINE = B10011001; // 1001 => 1+8 = 9
 
 // variables for 8x8 LED Matrix MAX7219
 int DIN = 11;
@@ -201,6 +201,46 @@ void convert_and_show_temp(double temp){
 }
 
 /**
+ * Shows the measured humidity on the display. 
+ * First example: temp == 21.5 --> sixth row has two activated LEDs, seventh row has one activated LED, 
+ * eighth row has five activated LEDs.
+ * Second example: temp == 09.8 --> sixth row has no activated LEDs, 
+ * seventh row has activated LEDs in pattern PATTERN_TO_DISPLAY_NUMBER_NINE, 
+ * all LEDs in eighth row are activated.
+ *
+ * @param humi_values_as_char using the first example, on index 0 should be '2', on 1 should be '1' and on 2 should be '5'
+ */
+void show_humi_on_display(char humi_values_as_char[3]){
+  // clear rows of humi
+  lc.setRow(0, 5, B00000000);
+  lc.setRow(0, 6, B00000000);
+  lc.setRow(0, 7, B00000000);
+
+  // calculate values
+  int humi_values[3];
+  humi_values[0] = humi_values_as_char[0] - '0';
+  humi_values[1] = humi_values_as_char[1] - '0';
+  humi_values[2] = humi_values_as_char[2] - '0';
+
+  // check if number 9 has to be displayed
+  if(humi_values[0] !=9){
+    activate_specific_number_of_leds_in_a_row(0, 5, humi_values[0]); // * 10 percent
+  }else {
+    lc.setRow(0, 5, PATTERN_TO_DISPLAY_NUMBER_NINE);
+  }
+  if(humi_values[1] !=9){
+    activate_specific_number_of_leds_in_a_row(0, 6, humi_values[1]); // * 1 percent
+  }else {
+    lc.setRow(0, 6, PATTERN_TO_DISPLAY_NUMBER_NINE);
+  }
+  if(humi_values[2] !=9){
+    activate_specific_number_of_leds_in_a_row(0, 7, humi_values[2]); // * 0.1 percent
+  }else {
+    lc.setRow(0, 7, PATTERN_TO_DISPLAY_NUMBER_NINE);
+  }
+}
+
+/**
  * Shows the measured humidity on the display.
  * If humi is NaN, nothing on the display of humidity will change.
  *
@@ -208,32 +248,42 @@ void convert_and_show_temp(double temp){
  */
 void convert_and_show_humi(double humi){
   if(!isnan(humi)){ // check if humi is NaN
-    if(humi==100.0){
+    if(humi==0.0){
       // clear rows of humi
       lc.setRow(0, 5, B00000000);
       lc.setRow(0, 6, B00000000);
       lc.setRow(0, 7, B00000000);
 
-      lc.setLed(0, 0, 5, true); // show warning that humi == 100.0
+      lc.setLed(0, 0, 5, true); // show warning that humi == 0.0
+      lc.setLed(0, 0, 6, false);
+    }else if(humi==100.0){
+      // clear rows of humi
+      lc.setRow(0, 5, B00000000);
+      lc.setRow(0, 6, B00000000);
+      lc.setRow(0, 7, B00000000);
+
+      lc.setLed(0, 0, 6, true); // show warning that humi == 100.0
+      lc.setLed(0, 0, 5, false);
     }else {
-      lc.setLed(0, 0, 5, false); // deactivate warning that humi == 100.0
+      // deactivate warnings
+      lc.setLed(0, 0, 5, false); 
+      lc.setLed(0, 0, 6, false);
 
       char buffer[6];
       String(humi).toCharArray(buffer, sizeof(buffer)); // convert double to String and String to char array
 
-      Serial.print(buffer[0]);
-      Serial.print(buffer[1]);
-      Serial.print(buffer[2]);
-      Serial.print(buffer[3]);
-      Serial.print(buffer[4]);
-      Serial.print(buffer[5]);
-      Serial.println("-");
-
       if(humi >= 10.00){ // does humi have two digits before the point
         char humi_values[3] = {buffer[0], buffer[1], buffer[3]};
-        // show_humi_on_display(humi_values); // ToDo code this function
+        show_humi_on_display(humi_values);
       }else{
-        
+        char new_buffer[4];
+        new_buffer[0] = '0';
+        new_buffer[1] = buffer[0];
+        new_buffer[2] = buffer[1];
+        new_buffer[3] = buffer[2];
+
+        char humi_values[3] = {new_buffer[0], new_buffer[1], new_buffer[3]};
+        show_humi_on_display(humi_values);
       }
     }
   }
@@ -256,7 +306,7 @@ void setup()   {
 
   Serial.begin(9600); // ToDo delete later
 
-  delay(5000);
+  delay(2500);
   lc.clearDisplay(0);
 }
 
@@ -270,15 +320,7 @@ void loop() {
 
   // show data
   convert_and_show_temp(temp);
-  // convert_and_show_humi(humi);
-
-  convert_and_show_humi(99.90); // ToDo delete test
-  delay(2000);
-  convert_and_show_humi(100.00); // ToDo delete test
-  delay(2000);
-  convert_and_show_humi(10.45); // ToDo delete test
-  delay(2000);
-  convert_and_show_humi(3.15); // ToDo delete test
+  convert_and_show_humi(humi);
 
   // update display after a few seconds
   delay(5000);
