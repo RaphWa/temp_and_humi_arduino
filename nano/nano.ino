@@ -1,6 +1,6 @@
 #include <LedControl.h>
 #include <math.h>
-
+#include "DHT.h"
 
 // constants
 const double TEMP_TOO_HIGH = 35.0;
@@ -14,6 +14,9 @@ int DIN = 11;
 int CS = 10;
 int CLK = 8;
 LedControl lc=LedControl(DIN, CLK, CS,0);
+
+// variables for DHT22
+DHT dht(2, DHT22); // data pin=2, type=DHT22
 
 /**
  * Activates the first LED in the first row if is_temp_negativ is true,
@@ -304,6 +307,8 @@ void setup()   {
   lc.setRow(0, 6, B01000010);
   lc.setRow(0, 7, B00111100);
 
+  dht.begin();
+
   Serial.begin(9600); // ToDo delete later
 
   delay(2500);
@@ -312,8 +317,14 @@ void setup()   {
 
 void loop() {
   // get data
-  double temp = 99.9; // ToDo get real data
-  double humi = 56.8; // ToDo get real data
+  double temp = (double)dht.readTemperature();
+  double humi = (double)dht.readHumidity();
+
+  Serial.print("temp: ");
+  Serial.print(temp);
+
+  Serial.print("humi: ");
+  Serial.print(humi);
 
   // check for warnings
   check_and_show_warnings(temp, humi);
