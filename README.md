@@ -2,7 +2,7 @@
 A Arduino Nano gathers data from a DHT22 modul and displays the data on a 8x8 LED Matrix MAX7219. The power is being delivered through the USB connector.
 
 ## Meaning of LEDs on 8x8 matrix
-The following table shows what meaning each LED on the matrix has if it is activated. Furthermore the next three chapters explain the meaning of the LEDs in more detail
+The following table shows what meaning each LED on the matrix has if it is activated. Furthermore the next three chapters explain the meaning of the LEDs in more detail.
 
 | . | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -15,7 +15,10 @@ The following table shows what meaning each LED on the matrix has if it is activ
 | 6 | H1 | H2 | H3 | H4 | H5 | H6 | H7 | H8 |
 | 7 | H0.1 | H0.2 | H0.3 | H0.4 | H0.5 | H0.6 | H0.7 | H0.8 |
 
-temp/T= Temperature in celsius, humi/H= Humidity in percent, .= placholder
+Explanation of symbols:
+- temp/T = Temperature in celsius
+- humi/H = Humidity in percent
+- . = Placeholder
 
 ### First row
 The first row (at index 0) contains LEDs for additional information and warnings. Within that row the first LED is activated if the measured temperature is negativ, but if the measured temperature is equal to or greater than 0.0 this LED will be deactivated. The next two LEDs are activated if the measured temperature is too high (temp is above [TEMP_TOO_HIGH](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)) or too low (temp is lower than [TEMP_TOO_LOW](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)). The following two LEDs at the two indices 3 and 4 are activated if the measured humidity is too high (humi is above [HUMI_TOO_HIGH](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)) or too low (temp is lower than [HUMI_TOO_LOW](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)). The LED at the index 5 is activated if the measured humidity equals 0.0% and the LED at the index 6 is activated if the measured humidity equals 100.0%.
@@ -54,7 +57,6 @@ The following text and tables show what modules were being used and how to conne
 
 ### Connections
 Arduino Nano and DHT22:
-
 | Arduino Nano-Pin | DHT22-Pin |
 | ----------- | ----------- |
 | 3v3 | + |
@@ -62,7 +64,6 @@ Arduino Nano and DHT22:
 | GND | - |
 
 Arduino Nano and 8x8 LED Matrix MAX7219:
-
 | Arduino Nano-Pin | 8x8 LED Matrix MAX7219-Pin |
 | ----------- | ----------- |
 | 5V | VCC |
