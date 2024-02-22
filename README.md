@@ -18,7 +18,16 @@ The following table shows what meaning each LED on the matrix has if it is activ
 temp/T= Temperature in celsius, humi/H= Humidity in percent, .= placholder
 
 ### First row
-The first row (at index 0) contains LEDs for additional information and warnings. Within that row the first LED is activated if the measured temperatue is negativ. the next two LEDs are activated if the measured temperature is too high (temp is above [TEMP_TOO_HIGH](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)) or too low (temp is lower than [TEMP_TOO_LOW](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)). The following two LEDs at the two indices 3 and 4 are activated if the measured humidity is too high (humi is above [HUMI_TOO_HIGH](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)) or too low (temp is lower than [HUMI_TOO_LOW](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)). The LED at the index 5 is activated if the measured humidity equals 0.0% and the LED at the index 6 is activated if the measured humidity equals 100.0%.
+The first row (at index 0) contains LEDs for additional information and warnings. Within that row the first LED is activated if the measured temperature is negativ, but if the measured temperature is equal to or greater than 0.0 this LED will be deactivated. The next two LEDs are activated if the measured temperature is too high (temp is above [TEMP_TOO_HIGH](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)) or too low (temp is lower than [TEMP_TOO_LOW](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)). The following two LEDs at the two indices 3 and 4 are activated if the measured humidity is too high (humi is above [HUMI_TOO_HIGH](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)) or too low (temp is lower than [HUMI_TOO_LOW](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino)). The LED at the index 5 is activated if the measured humidity equals 0.0% and the LED at the index 6 is activated if the measured humidity equals 100.0%.
+
+### Second, third and forth row
+The three rows at the indices 1, 2 and 3 display the measured temperature.
+
+### Fifth row
+No LEDs within the fifth row are being activated.
+
+### Sixth, seventh and eighth row
+The three rows at the indices 5, 6 and 7 display the measured humidity.
 
 
 # Structure
