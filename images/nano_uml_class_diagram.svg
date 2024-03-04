@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/PR-SVG-20010719/DTD/svg10.dtd">
+<svg width="27cm" height="28cm" viewBox="11 7 536 559" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <g>
+    <rect style="fill: #ffffff" x="12.8569" y="97.0388" width="533.6" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="12.8569" y="97.0388" width="533.6" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="279.657" y="117.039">node</text>
+    <rect style="fill: #ffffff" x="12.8569" y="125.039" width="533.6" height="196"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="12.8569" y="125.039" width="533.6" height="196"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="138.239"> TEMP_TOO_HIGH: const double = 35.0</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="154.239"> TEMP_TOO_LOW: const double = 0.0</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="170.239"> HUMI_TOO_HIGH: const double = 60.0</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="186.239"> HUMI_TOO_LOW: const double = 40.0</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="202.239"> PATTERN_TO_DISPLAY_NUMBER_NINE: const byte = B10011001</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="218.239"> NUMBER_OF_ITERATIONS_OF_FASTER_SCREEN_REFRESH: const int = 5</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="234.239"> counter_faster_screen_refresh: int = 0</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="250.239"> DIN: int = 11</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="266.239"> CS: int = 10</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="282.239"> CLK: int = 8</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="298.239"> lc: LedControl</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="314.239"> dht: DHT</text>
+    <rect style="fill: #ffffff" x="12.8569" y="321.039" width="533.6" height="244"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="12.8569" y="321.039" width="533.6" height="244"/>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="334.239"> show_if_temp_is_negativ(is_temp_negativ:bool): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="350.239"> show_too_hot(): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="366.239"> show_too_cold(): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="382.239"> show_too_humid(): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="398.239"> show_not_humid_enough()</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="414.239"> check_and_show_warnings(temp:double,humi:double): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="430.239"> activate_specific_number_of_leds_in_a_row(addr:int,</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="446.239">                                           row:int,</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="462.239">                                           number_of_leds:int): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="478.239"> show_temp_on_display(temp_values_as_char[3]:char[]): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="494.239"> convert_and_show_temp(temp:double): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="510.239"> show_humi_on_display(humi_values_as_char[3]:char[]): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="526.239"> convert_and_show_humi(humi:double): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="542.239"> setup(): void</text>
+    <text font-size="12.8" style="fill: #000000;text-anchor:start;font-family:monospace;font-style:normal;font-weight:normal" x="15.8569" y="558.239"> loop(): void</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="55.8422" y="8.88396" width="97.9" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="55.8422" y="8.88396" width="97.9" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="104.792" y="28.884">LedControl</text>
+  </g>
+  <g>
+    <rect style="fill: #ffffff" x="345.428" y="8.65508" width="44.15" height="28"/>
+    <rect style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" x="345.428" y="8.65508" width="44.15" height="28"/>
+    <text font-size="16" style="fill: #000000;text-anchor:middle;font-family:sans-serif;font-style:normal;font-weight:700" x="367.503" y="28.6551">DHT</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="12.8569,97.0388 12.8569,70.9614 104.792,70.9614 104.792,43.5892 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="109.792,56.2366 104.792,40.2366 99.7922,56.2366 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="58.8246" y="66.9614">&lt;&lt;use&gt;&gt;</text>
+  </g>
+  <g>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke-dasharray: 8; stroke: #000000" points="279.657,97.0388 279.657,70.8469 367.503,70.8469 367.503,43.3603 "/>
+    <polyline style="fill: none; fill-opacity:0; stroke-width: 2; stroke: #000000" points="372.503,56.0077 367.503,40.0077 362.503,56.0077 "/>
+    <text font-size="12.7998" style="fill: #000000;text-anchor:middle;font-family:monospace;font-style:normal;font-weight:normal" x="323.58" y="66.8469">&lt;&lt;use&gt;&gt;</text>
+  </g>
+</svg>
