@@ -76,4 +76,4 @@ Arduino Nano and 8x8 LED Matrix MAX7219:
 ## Structure of the software
 The following table shows the structure of the [software](https://github.com/RaphWa/temp_and_humi_arduino/blob/main/nano/nano.ino) of the Arduino Nano.
 
-![nano_uml_class_diagram](https://github.com/RaphWa/temp_and_humi_arduino/tree/main/images/nano_uml_class_diagram.dia)
+![nano_uml_class_diagram](https://github.com/RaphWa/temp_and_humi_arduino/tree/main/images/nano_uml_class_diagram.svg)
